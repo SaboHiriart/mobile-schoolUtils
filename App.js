@@ -13,7 +13,6 @@ import LogInScreen from './src/screens/LogInScreen';
 const App = () => {
   return (
     <SafeAreaView>
-      <Text>Hola Mundo en React Native</Text>
       <LogInScreen />
     </SafeAreaView>
   );
