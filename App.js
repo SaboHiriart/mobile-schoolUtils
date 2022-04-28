@@ -7,14 +7,23 @@
  */
 
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Button} from 'react-native';
 import LogInScreen from './src/screens/LogInScreen';
+import SingUpScreen from './src/screens/SingUpScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <View style={{ width: '100%', height: '100%'}}>
-      <LogInScreen style={{ width: '100%', height: '100%'}}/>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="Login">
+        <Stack.Screen name="Login" component={LogInScreen} />
+        <Stack.Screen name="Singup" component={SingUpScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

@@ -1,51 +1,43 @@
-import { View, Text, StyleSheet, Alert } from 'react-native'
+import React from 'react'
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { Input, Icon, Button } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react'
 import SVGWave from '../../../assets/svg/wave.svg';
 
-const LogInScreen = (props) => {
-  const [User, setUser] = React.useState('');
-  const [Password, setPassword] = React.useState('');
+const SingUpScreen = () => {
   const navigation = useNavigation();
-
-  const validateLoginForm = () => {
-    if (User === '' || Password === '') {
-      return false;
-    } else {
-      return true;
-    }
-  }
+  const [Name, setName] = React.useState('');
+  const [User, setUser] = React.useState('');
+  const [Email, setEmail] = React.useState('');
+  const [Password, setPassword] = React.useState('');
 
   const handleLoginClick = () => {
-    if (validateLoginForm() === false) {
-      Alert.alert(
-        "Error en Formulario",
-        "No se pueden dejar campos vacíos.",
-        [
-          { text: "OK", onPress: () => console.log("OK Pressed") }
-        ]
-      );
-    } else {
-      console.log("attempting to log in...");
-    }
-  }
-
-  const handleSingupClick = () => {
-    navigation.navigate('Singup')
+    navigation.goBack();
   }
 
   return (
     <View style={styles.container}>
       <SVGWave width={900} height={200} />
-      <Text style={styles.tittle}>School Utils</Text>
+      <Text style={styles.tittle}>Registrate</Text>
       <Text style={styles.powered}>Powered by SaboHiriart</Text>
       <View style={styles.inputContainer}>
         <Input
-          placeholder='Usuario'
+          placeholder='Nombre Completo'
           containerStyle={{ marginBottom: 15, }}
           leftIcon={<Icon name='person' size={24} color='black' />}
+          onChangeText={newName => setName(newName)}
+        />
+        <Input
+          placeholder='Usuario'
+          containerStyle={{ marginBottom: 15, }}
+          leftIcon={<Icon name='badge' size={24} color='black' />}
           onChangeText={newUser => setUser(newUser)}
+        />
+        <Input
+          placeholder='Correo'
+          containerStyle={{ marginBottom: 15, }}
+          leftIcon={<Icon name='mail' size={24} color='black' />}
+          onChangeText={newEmail => setEmail(newEmail)}
         />
         <Input
           placeholder='Contraseña'
@@ -54,9 +46,8 @@ const LogInScreen = (props) => {
           onChangeText={newPassword => setPassword(newPassword)}
         />
       </View>
-
       <Button
-        title="LOG IN"
+        title="Registrar"
         buttonStyle={{
           backgroundColor: '#000B76',
           borderWidth: 2,
@@ -69,11 +60,10 @@ const LogInScreen = (props) => {
           marginVertical: 10,
         }}
         titleStyle={{ fontWeight: 'bold' }}
-        onPress={handleLoginClick}
       />
-      <Text style={styles.singUp}>
-        ¿No tienes cuenta?
-        <Text style={styles.register} onPress={handleSingupClick}> REGISTRATE</Text>
+      <Text style={styles.singIn}>
+        ¿Ya tienes cuenta?
+        <Text style={styles.register} onPress={handleLoginClick}> INGRESA</Text>
       </Text>
     </View>
   )
@@ -87,10 +77,10 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: 300,
-    marginBottom: 50,
+    marginBottom:20,
   },
   tittle: {
-    marginTop: -60,
+    marginTop: -100,
     marginBottom: 5,
     fontSize: 50,
     fontWeight: 'bold',
@@ -99,12 +89,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Monserrat-Medium',
   },
   powered: {
-    marginBottom: 90,
+    marginBottom: 50,
     textAlign: 'center',
     fontFamily: 'Montserrat-Bold'
   },
-  singUp: {
-    marginTop: 100,
+  singIn: {
+    marginTop: 20,
   },
   register: {
     color: '#000000',
@@ -112,4 +102,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LogInScreen
+export default SingUpScreen
