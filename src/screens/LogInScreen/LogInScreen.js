@@ -1,37 +1,62 @@
-import { View, Text, StyleSheet, Alert} from 'react-native'
+import { View, Text, StyleSheet, Alert } from 'react-native'
 import { Input, Icon, Button } from '@rneui/themed';
 import React from 'react'
 import SVGWave from '../../../assets/svg/wave.svg';
 
 const LogInScreen = () => {
-  const createTwoButtonAlert = () =>
+  const [User, setUser] = React.useState('');
+  const [Password, setPassword] = React.useState('');
+
+  const validateLoginForm = () => {
+    if (User === '' || Password === '') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  const handleLoginClick = () => {
+    if (validateLoginForm() === false) {
+      Alert.alert(
+        "Error en Formulario",
+        "No se pueden dejar campos vacíos.",
+        [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    } else {
+      console.log("attempting to log in...");
+    }
+  }
+
+  const handleSingupClick = () => {
     Alert.alert(
-      "Alert Title",
-      "My Alert Msg",
+      "Registro",
+      "Vamos a registrarte",
       [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
         { text: "OK", onPress: () => console.log("OK Pressed") }
       ]
     );
+  }
 
   return (
     <View style={styles.container}>
       <SVGWave width={900} height={200} />
-      <Text style={styles.tittle}>TUM MOBILE</Text>
+      <Text style={styles.tittle}> School Utils</Text>
       <Text style={styles.powered}>Powered by SaboHiriart</Text>
       <View style={styles.inputContainer}>
-        <Input placeholder='Usuario' containerStyle={{ marginBottom: 15, }} leftIcon={
-          <Icon name='person' size={24} color='black' />
-        }
+        <Input
+          placeholder='Usuario'
+          containerStyle={{ marginBottom: 15, }}
+          leftIcon={<Icon name='person' size={24} color='black' />}
+          onChangeText={newUser => setUser(newUser)}
         />
-        <Input placeholder='Contraseña' leftIcon={
-          <Icon name='lock' size={24} color='black' />
-        }
-          secureTextEntry={true} />
+        <Input
+          placeholder='Contraseña'
+          leftIcon={<Icon name='lock' size={24} color='black' />}
+          secureTextEntry={true}
+          onChangeText={newPassword => setPassword(newPassword)}
+        />
       </View>
 
       <Button
@@ -48,9 +73,12 @@ const LogInScreen = () => {
           marginVertical: 10,
         }}
         titleStyle={{ fontWeight: 'bold' }}
-        onPress={createTwoButtonAlert}
+        onPress={handleLoginClick}
       />
-      <Text style={styles.singUp}>¿No tienes cuenta? <Text style={styles.register}>REGISTRATE</Text></Text>
+      <Text style={styles.singUp}>
+        ¿No tienes cuenta?
+        <Text style={styles.register} onPress={handleSingupClick}> REGISTRATE</Text>
+      </Text>
     </View>
   )
 }
