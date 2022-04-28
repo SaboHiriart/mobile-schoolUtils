@@ -27,7 +27,17 @@ const LogInScreen = (props) => {
         ]
       );
     } else {
-      console.log("attempting to log in...");
+      if(User === 'SaboHiriart' && Password === '1234'){
+        navigation.navigate('Main');
+      }else{
+        Alert.alert(
+          "Credenciales",
+          "Usuario y/o contraseña no válidos. Intente de nuevo.",
+          [
+            { text: "OK", onPress: () => console.log("OK Pressed") }
+          ]
+        );
+      }
     }
   }
 

@@ -7,12 +7,12 @@
  */
 
 import React from 'react';
-import {View, StyleSheet, Button} from 'react-native';
-import LogInScreen from './src/screens/LogInScreen';
-import SingUpScreen from './src/screens/SingUpScreen';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import LogInScreen from './src/screens/LogInScreen';
+import SingUpScreen from './src/screens/SingUpScreen';
+import MainScreen from './src/screens/MainScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +22,7 @@ const App = () => {
       <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="Login">
         <Stack.Screen name="Login" component={LogInScreen} />
         <Stack.Screen name="Singup" component={SingUpScreen} />
+        <Stack.Screen name="Main" component={MainScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
