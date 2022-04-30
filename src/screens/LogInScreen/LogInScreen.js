@@ -1,15 +1,21 @@
+import React from 'react'
 import { View, Text, StyleSheet, Alert } from 'react-native'
 import { Input, Icon, Button } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react'
 import SVGWave from '../../../assets/svg/wave.svg';
 
-const LogInScreen = (props) => {
+const LogInScreen = () => {
   const [User, setUser] = React.useState('');
   const [Password, setPassword] = React.useState('');
   const navigation = useNavigation();
 
+  /**
+  * Validate if the inputs are empty or not.
+  *
+  * @return {boolean} return true if the inputs aren't empty.
+  */
   const validateLoginForm = () => {
+    //Compare the value of the inputs.
     if (User === '' || Password === '') {
       return false;
     } else {
@@ -17,32 +23,48 @@ const LogInScreen = (props) => {
     }
   }
 
-  const handleLoginClick = () => {
-    if (validateLoginForm() === false) {
-      Alert.alert(
-        "Error en Formulario",
-        "No se pueden dejar campos vacíos.",
-        [
-          { text: "OK", onPress: () => console.log("OK Pressed") }
-        ]
-      );
-    } else {
-      if(User === 'SaboHiriart' && Password === '1234'){
-        navigation.navigate('Main');
-      }else{
-        Alert.alert(
-          "Credenciales",
-          "Usuario y/o contraseña no válidos. Intente de nuevo.",
-          [
-            { text: "OK", onPress: () => console.log("OK Pressed") }
-          ]
-        );
-      }
-    }
-  }
-
+  /**
+   * Actions to do when the button "Registrate" is clicked.
+   *
+   */
   const handleSingupClick = () => {
     navigation.navigate('Singup')
+  }
+
+  const handleErrorAlert = (title, message, button) => {
+    Alert.alert(
+      title,
+      message,
+      [
+        { text: button }
+      ]
+    );
+  }
+
+  const callLoginApi = () => {
+    var uriUser = "http://10.10.80.85/schoolUtilsAPI/public/users/" + User;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        const data = JSON.parse(xhttp.response);
+        console.log(data.name);
+      }
+    };
+    xhttp.open("GET", uriUser, true);
+    xhttp.setRequestHeader("Api-Token", "schoolutils rules");
+    xhttp.send();
+  }
+
+  /**
+  * Actions to do when the "Log In" button has been clicked
+  *
+  */
+  const handleLoginClick = () => {
+    if (validateLoginForm() === false) {
+      handleErrorAlert("Error en Formulario", "No puede deja camos vacíos.", "OK");
+      return false;
+    }
+    callLoginApi();
   }
 
   return (
