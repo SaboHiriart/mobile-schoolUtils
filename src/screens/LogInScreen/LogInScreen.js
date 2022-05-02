@@ -46,8 +46,22 @@ const LogInScreen = () => {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        const data = JSON.parse(xhttp.response);
-        console.log(data.name);
+        const dataResponse = JSON.parse(xhttp.responseText);
+        console.log(dataResponse.username)
+        if(dataResponse.username == User && dataResponse.password == Password){
+          Alert.alert(
+            "Bienvenido",
+            "Credenciales Aceptadas",
+            [
+              {
+                text: "OK",
+                onPress: () => navigation.navigate('Main'),
+              },
+            ],
+          );
+        }else{
+          handleErrorAlert("Credenciales", "No se pudo autentificar. Intente de nuevo.", "OK");
+        }
       }
     };
     xhttp.open("GET", uriUser, true);
