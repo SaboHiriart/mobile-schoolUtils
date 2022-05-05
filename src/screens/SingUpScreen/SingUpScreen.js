@@ -15,6 +15,53 @@ const SingUpScreen = () => {
     navigation.goBack();
   }
 
+  const validateSingUpForm = () => {
+    if (User === '' || Password === '' || Email === '' || Name === '') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  const callSingUpAPI = () => {
+    var data = new FormData();
+    data.append("name", Name);
+    data.append("username", User);
+    data.append("email", Email);
+    data.append("password", Password);
+
+    var uri = "http://10.10.80.85/schoolUtilsAPI/public/users";
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        if(xhttp.responseText === "1"){
+          Alert.alert(
+            "Registro Completado",
+            "Procede a iniciar sesión en la pantalla 'LogIN'",
+            [
+              {
+                text: "OK",
+                onPress: () => navigation.navigate('Login'),
+              },
+            ],
+          );
+        }else {
+          Alert.alert(
+            "Registro no Completado",
+            "El nombre de usuario ya esta siendo utilizado. Intenta con uno nuevo."
+          );
+        }
+      }
+    };
+    xhttp.open("POST", uri, true);
+    xhttp.setRequestHeader("Api-Token", "schoolutils rules");
+    xhttp.send(data);
+  }
+
+  const handleSingUpClick = () => {
+    callSingUpAPI();
+  }
+
   return (
     <View style={styles.container}>
       <SVGWave width={900} height={200} />
@@ -60,6 +107,7 @@ const SingUpScreen = () => {
           marginVertical: 10,
         }}
         titleStyle={{ fontWeight: 'bold' }}
+        onPress={handleSingUpClick}
       />
       <Text style={styles.singIn}>
         ¿Ya tienes cuenta?
@@ -77,7 +125,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: 300,
-    marginBottom:20,
+    marginBottom: 20,
   },
   tittle: {
     marginTop: -100,
